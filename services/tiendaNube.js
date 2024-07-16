@@ -11,7 +11,7 @@ class TiendaNubeService {
     console.log('Getting categories');
     const categories = await get(`${this.baseUrl}/categories`, this.headers);
     let category = categories.find(
-      (cat) => cat.handle.es === slugify(categoryName)
+      (cat) => cat.handle.es.toLowerCase() === slugify(categoryName).toLowerCase()
     );
     if (!category) {
       console.log('Adding new category');
