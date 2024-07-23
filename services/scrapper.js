@@ -1,9 +1,11 @@
 import puppeteer from 'puppeteer';
 import getContent from '../utils/getContent.js';
+import getUrl from '../utils/getUrl.js';
 import titleCase from '../utils/titleCase.js';
 import slugify from '../utils/slugify.js';
 
 class ScrapperService {
+  url = process.env.SCRAPPER_URL;
   credentials = {
     url: process.env.SCRAPPER_URL_LOGIN,
     username: process.env.SCRAPPER_USERNAME,
@@ -32,6 +34,20 @@ class ScrapperService {
       this.page.click('.login-form .enviar-login'),
       this.page.waitForNavigation(),
     ]);
+  };
+
+  search = async (sku) => {
+    console.log(`Searching ${sku}`);
+    await this.page.goto(this.url);
+    await this.page.click('#logo #primary-menu-trigger');
+    await this.page.type('#frmbuscador #buscar', sku);
+
+    await Promise.all([
+      this.page.click('#frmbuscador .enviar'),
+      this.page.waitForNavigation(),
+    ]);
+
+    return await getUrl(this.page, '.productos .producto .ampliar')
   };
 
   scrape = async (url) => {

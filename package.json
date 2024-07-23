@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node --env-file=.env index.js"
+    "start": "node --env-file=.env index.js",
+    "check-price": "node --env-file=.env checkPrice.js"
   },
   "keywords": [],
   "author": "",
