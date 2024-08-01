@@ -14,6 +14,10 @@ class ScrapperService {
   browser;
   page;
 
+  constructor() {
+    console.log((new Date()).toLocaleString());
+  }
+
   init = async () => {
     this.browser = await puppeteer.launch({ headless: true });
     this.page = await this.browser.newPage();
