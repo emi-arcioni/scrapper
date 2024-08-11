@@ -15,7 +15,7 @@ class ScrapperService {
   page;
 
   constructor() {
-    console.log((new Date()).toLocaleString());
+    console.log(new Date().toLocaleString());
   }
 
   init = async () => {
@@ -29,29 +29,35 @@ class ScrapperService {
 
   login = async (page) => {
     console.log('Login');
-    await this.page.goto(this.credentials.url);
+    await this.page.goto(this.credentials.url, { timeout: 0 });
 
-    await this.page.type('.login-form .input.username', this.credentials.username);
-    await this.page.type('.login-form .input.password', this.credentials.password);
+    await this.page.type(
+      '.login-form .input.username',
+      this.credentials.username
+    );
+    await this.page.type(
+      '.login-form .input.password',
+      this.credentials.password
+    );
 
     await Promise.all([
       this.page.click('.login-form .enviar-login'),
-      this.page.waitForNavigation(),
+      this.page.waitForNavigation({ timeout: 0 }),
     ]);
   };
 
   search = async (sku) => {
     console.log(`Searching ${sku}`);
-    await this.page.goto(this.url);
+    await this.page.goto(this.url, { timeout: 0 });
     await this.page.click('#logo #primary-menu-trigger');
     await this.page.type('#frmbuscador #buscar', sku);
 
     await Promise.all([
       this.page.click('#frmbuscador .enviar'),
-      this.page.waitForNavigation(),
+      this.page.waitForNavigation({ timeout: 0 }),
     ]);
 
-    return await getUrl(this.page, '.productos .producto .ampliar')
+    return await getUrl(this.page, '.productos .producto .ampliar');
   };
 
   scrape = async (url) => {
